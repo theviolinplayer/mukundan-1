@@ -1,0 +1,7 @@
+[workspace]
+members = [
+    "core", "gpu-prover",
+    "server",
+    "wasm-bridge"
+]
+resolver = "2"

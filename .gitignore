@@ -1,0 +1,29 @@
+# Rust build artifacts
+target/
+target_old/
+target_standalone/
+**/target/
+**/target_standalone/
+**/*.rs.bk
+
+# Node & Frontend dependencies and bundles
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+.vite/
+**/.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Nargo / Noir circuit build artifacts
+circuits/target/
+**/circuits/target/
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+*.tmp
+.vscode/
+.idea/

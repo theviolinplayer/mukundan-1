@@ -1,0 +1,7 @@
+[package]
+name = "mukundan_circuits"
+type = "bin"
+authors = ["Mukundan Padmaraj"]
+compiler_version = ">=0.1.0"
+
+[dependencies]

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MUKUNDAN 1: Beaver-Grid Node</title>
+    <style>
+        body { background-color: #0d1117; color: #c9d1d9; font-family: monospace; padding: 20px; }
+        #terminal { background-color: #000; border: 1px solid #30363d; padding: 15px; height: 500px; overflow-y: auto; margin-top: 15px; }
+        .log { color: #8b949e; margin-bottom: 5px; }
+        .sys { color: #58a6ff; font-weight: bold; margin-bottom: 5px; }
+        .metric { color: #3fb950; font-weight: bold; margin-bottom: 5px; }
+        .err { color: #f85149; font-weight: bold; margin-bottom: 5px; }
+        .btn { border: none; padding: 10px 20px; cursor: pointer; font-family: monospace; font-size: 16px; font-weight: bold; margin-right: 10px; }
+        #start-btn { background-color: #238636; color: #fff; }
+        #start-btn:hover { background-color: #2ea043; }
+        #start-btn:disabled { background-color: #1a5c27; cursor: not-allowed; }
+        #stop-btn { background-color: #da3633; color: #fff; display: none; }
+        #stop-btn:hover { background-color: #f85149; }
+    </style>
+</head>
+<body>
+    <h2>MUKUNDAN 1: Decentralized Node Execution</h2>
+    <div>
+        <button id="start-btn" class="btn">INITIALIZE VERIFIABLE WORKER</button>
+        <button id="stop-btn" class="btn">HALT NODE</button>
+    </div>
+    <div id="terminal"></div>
+
+    <script type="module">
+        const terminal = document.getElementById('terminal');
+        const startBtn = document.getElementById('start-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        let worker;
+
+        function printLog(className, text) {
+            const div = document.createElement('div');
+            div.className = className;
+            div.textContent = `> ${text}`;
+            terminal.appendChild(div);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        startBtn.addEventListener('click', () => {
+            if (worker) return;
+            startBtn.disabled = true;
+            startBtn.innerText = "NODE ACTIVE";
+            stopBtn.style.display = "inline-block";
+            printLog('sys', 'Spawning secure Web Worker thread...');
+            
+            worker = new Worker(new URL('./worker.js', import.meta.url), { type: 'module' });
+            
+            worker.onmessage = (e) => {
+                const { type, msg } = e.data;
+                printLog(type.toLowerCase(), msg);
+            };
+        });
+
+        stopBtn.addEventListener('click', () => {
+            if (worker) {
+                // Instantly terminates the background thread
+                worker.terminate();
+                worker = null;
+                
+                printLog('err', 'SYSTEM OVERRIDE: Web Worker Thread Terminated.');
+                
+                startBtn.disabled = false;
+                startBtn.innerText = "INITIALIZE VERIFIABLE WORKER";
+                stopBtn.style.display = "none";
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+left_hash_in = 0
+left_hash_out = 0
+move_dir = 0
+right_hash_in = 0
+right_hash_out = 0
+rule_move_dir = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+rule_next_state = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+rule_write_symbol = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+state_in = 0
+state_out = 0
+underlying_right_hash = 0
+
+[read_block]
+count = 0
+symbol = 0
+
+[written_block]
+count = 0
+symbol = 0

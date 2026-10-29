@@ -1,0 +1,13 @@
+[package]
+name = "mukundan-server"
+version = "0.1.0"
+edition = "2021"
+description = "MUKUNDAN 1 Orchestrator and Node Scheduler"
+
+[dependencies]
+mukundan-core = { path = "../core" }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1.32", features = ["full"] }
+warp = "0.3"
+futures-util = "0.3"

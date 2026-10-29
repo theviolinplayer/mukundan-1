@@ -1,0 +1,28 @@
+[package]
+name = "gpu-prover"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+# The mathematical source of truth
+ark-bn254 = { version = "0.4.0", default-features = false }
+ark-ec = { version = "0.4.0", default-features = false }
+ark-ff = { version = "0.4.0", default-features = false }
+
+# Browser hardware bindings
+wasm-bindgen = "0.2"
+wasm-bindgen-futures = "0.4"
+js-sys = "0.3"
+web-sys = { version = "0.3", features = ["Window", "Navigator", "Gpu", "GpuAdapter", "GpuDevice"] }
+
+# Safe zero-copy memory casting for Wasm-to-GPU bandwidth
+bytemuck = { version = "1.14", features = ["derive"] }
+wgpu = "0.19"
+futures-intrusive = "0.5.0"
+
+# Future-proofing: CPU Fallback via Rayon (Requires SharedArrayBuffer)
+# rayon = "1.7"
+# wasm-bindgen-rayon = "1.0"

@@ -1,0 +1,37 @@
+[package]
+name = "wasm-bridge"
+version = "0.1.0"
+edition = "2021"
+description = "MUKUNDAN 1 WebAssembly Execution Bridge"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+mukundan-core = { path = "../core" }
+wasm-bindgen = "0.2"
+num-bigint = "0.4"
+getrandom = { version = "0.2", features = ["js"] }
+wasm-bindgen-futures = "0.4"
+js-sys = "0.3"
+
+[dependencies.web-sys]
+version = "0.3"
+features = [
+  "RtcPeerConnection",
+  "RtcDataChannel",
+  "RtcDataChannelInit",
+  "RtcDataChannelState",
+  "RtcConfiguration",
+  "RtcSessionDescriptionInit",
+  "RtcPeerConnectionIceEvent",
+  "RtcIceCandidate",
+  "RtcIceCandidateInit",
+  "WebSocket",
+  "MessageEvent",
+  "ErrorEvent",
+  "console"
+]
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false
