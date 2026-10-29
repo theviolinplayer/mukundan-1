@@ -1,5 +1,6 @@
 # MUKUNDAN 1
-### Verifiable Distributed Computation Engine for the Busy Beaver BB(6) Challenge
+### Multi-node Universal Kernel for Unified Non-halting Distributed Automata Networks
+**Verifiable Distributed Computation Engine for the Busy Beaver BB(6) Challenge**
 
 [![Rust](https://img.shields.io/badge/rust-1.75%2B-orange.svg)](https://www.rust-lang.org/)
 [![Noir](https://img.shields.io/badge/noir-0.36.0-black.svg)](https://noir-lang.org/)
@@ -9,6 +10,12 @@
 MUKUNDAN 1 is a decentralized, zero-knowledge verifiable compute infrastructure designed to tackle open problems in computability theory—specifically the classification of the **1,161 remaining holdout Turing machines in the Busy Beaver BB(6) challenge**.
 
 Following the collective 2024 resolution of BB(5), the 6-state Busy Beaver problem remains an active frontier. MUKUNDAN 1 transforms untrusted web browsers into verifiable compute nodes using WebAssembly, zero-knowledge SNARKs (Noir), and WebGPU acceleration.
+
+---
+
+## ⚡ Runtime Execution Flow
+
+![MUKUNDAN 1 Runtime Execution Mechanism](data/running_mechanism.png)
 
 ---
 
@@ -79,33 +86,56 @@ mukundan-1/
 ├── gpu-prover/         # WebGPU WGSL compute shader for BN254 MSM
 ├── server/             # Warp orchestrator and holdout scheduler
 ├── client/             # Web Worker client pipeline with NoirJS & Barretenberg
-├── data/               # 1,161 canonical BB(6) holdout definitions
+├── data/               # 1,161 canonical BB(6) holdout definitions & visual assets
 └── scripts/            # Synchronization pipeline from bbchallenge.org
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🚀 How to Run MUKUNDAN 1
 
-### Prerequisites
-- [Rust](https://rustup.rs/) (v1.75+)
-- [Node.js](https://nodejs.org/) (v18+)
-- [Nargo](https://noir-lang.org/docs/getting_started/installation/) (v0.36.0)
-- [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/)
+Running the system requires **two concurrent terminal processes**:
 
-### 1. Build and Run the Orchestrator
-```bash
-cargo run --package mukundan-server
+### Terminal 1: Orchestrator Backend Server
+Navigate into the `server/` directory and run:
+
+```powershell
+cd server
+$env:CARGO_TARGET_DIR="target_standalone"; cargo run --release
 ```
-The server will initialize the grid scheduler and ingest all 1,161 holdout machines from `data/holdouts.json`.
+*(On Linux / macOS: `cd server && CARGO_TARGET_DIR="target_standalone" cargo run --release`)*
 
-### 2. Start the Volunteer Browser Node
-```bash
+**Terminal 1 Output:**
+```text
+--- MUKUNDAN 1: Beaver-Grid Orchestrator Booting ---
+Beaver-Grid Scheduler Initialized: 1161 Holdouts ingested.
+Orchestrator online. Listening on 0.0.0.0:3030...
+```
+
+---
+
+### Terminal 2: Volunteer Browser Node Host
+In a second terminal window, host the browser node:
+
+```powershell
 cd client
-npm install
-npm run dev
+npx vite
 ```
-Navigate to `http://localhost:5173` and click **Initialize Verifiable Worker** to begin processing assigned machines, solving execution witnesses, and generating ZK proofs.
+
+**Terminal 2 Output:**
+```text
+  VITE v8.0.x  ready in 150 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+```
+
+---
+
+### 3. Start Verifiable Computation
+1. Open your browser and navigate to **`http://localhost:5173`**.
+2. Click **`INITIALIZE VERIFIABLE WORKER`**.
+3. The node connects to Terminal 1 on `:3030`, fetches undecided BB(6) machines, simulates them via WebAssembly, solves execution witnesses, compiles ZK-SNARK proofs, and streams verified checkpoints back to the orchestrator.
 
 ---
 

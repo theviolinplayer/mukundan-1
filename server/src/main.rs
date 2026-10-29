@@ -42,8 +42,13 @@ async fn main() {
 
     let scheduler = Arc::new(GridScheduler::new());
     
-    let data_path = "../data/holdouts.json"; 
-    // Ignore error if holdouts.json doesn't exist yet in the stub
+    let data_path = if std::path::Path::new("../data/holdouts.json").exists() {
+        "../data/holdouts.json"
+    } else if std::path::Path::new("data/holdouts.json").exists() {
+        "data/holdouts.json"
+    } else {
+        "../data/holdouts.json"
+    };
     let _ = std::panic::catch_unwind(|| { scheduler.load_baseline(data_path); });
 
     let scheduler_filter = warp::any().map(move || Arc::clone(&scheduler));
